@@ -101,6 +101,23 @@ class ProxyProvider {
         });
     }
     /**
+     * Broadcasts an already-signed {@link Transaction}.
+     */
+    sendTransactions(txs) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.doPostGeneric("transaction/send-multiple", txs.map(t => t.toSendable()), (response) => {
+                let txHashes = [];
+                for (const key in response.txsHashes) {
+                    if (Object.prototype.hasOwnProperty.call(response.txsHashes, key)) {
+                        const hash = response.txsHashes[key];
+                        txHashes.push(new transaction_1.TransactionHash(hash));
+                    }
+                }
+                return txHashes;
+            });
+        });
+    }
+    /**
      * Simulates the processing of an already-signed {@link Transaction}.
      */
     simulateTransaction(tx) {

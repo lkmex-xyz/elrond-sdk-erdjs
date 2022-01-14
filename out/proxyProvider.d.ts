@@ -37,6 +37,10 @@ export declare class ProxyProvider implements IProvider {
      */
     sendTransaction(tx: Transaction): Promise<TransactionHash>;
     /**
+     * Broadcasts an already-signed {@link Transaction}.
+     */
+    sendTransactions(txs: Transaction[]): Promise<TransactionHash[]>;
+    /**
      * Simulates the processing of an already-signed {@link Transaction}.
      */
     simulateTransaction(tx: Transaction): Promise<any>;
