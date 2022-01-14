@@ -113,14 +113,22 @@ export class ExtensionProvider implements IDappProvider {
     return Transaction.fromPlainObject(txResponse[0]);
   }
 
-  async sendTransactions(transactions: Transaction[]): Promise<Transaction[]> {
+  async sendTransactions(
+    transactions: Array<Transaction>
+  ): Promise<Array<Transaction>> {
     this.openExtensionPopup();
-    const txResponses =  await this.startExtMsgChannel("sendTransactions", {
+    transactions = transactions.map((transaction) =>
+      transaction.toPlainObject()
+    );
+    let txResponse = await this.startExtMsgChannel("sendTransactions", {
       from: this.account.address,
-      transactions: transactions.map(t => t.toPlainObject()),
+      transactions,
     });
+    txResponse = txResponse.map((transaction: any) =>
+      Transaction.fromPlainObject(transaction)
+    );
 
-    return txResponses.map((t: any) => Transaction.fromPlainObject(t))
+    return txResponse;
   }
 
   async signTransaction(transaction: Transaction): Promise<Transaction> {
