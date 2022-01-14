@@ -100,7 +100,7 @@ class ExtensionProvider {
             this.openExtensionPopup();
             return yield this.startExtMsgChannel("sendTransactions", {
                 from: this.account.address,
-                transactions,
+                transactions: transactions.map(t => t.toPlainObject()),
             });
         });
     }
