@@ -110,6 +110,14 @@ export class ExtensionProvider implements IDappProvider {
     })[0];
   }
 
+  async sendTransactions(transactions: Transaction[]): Promise<Transaction[]> {
+    this.openExtensionPopup();
+    return await this.startExtMsgChannel("sendTransactions", {
+      from: this.account.address,
+      transactions,
+    });
+  }
+
   async signTransaction(transaction: Transaction): Promise<Transaction> {
     this.openExtensionPopup();
     return await this.startExtMsgChannel("signTransactions", {
