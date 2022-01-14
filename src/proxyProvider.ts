@@ -86,6 +86,26 @@ export class ProxyProvider implements IProvider {
     }
 
     /**
+     * Broadcasts an already-signed {@link Transaction}.
+     */
+     async sendTransactions(txs: Transaction[]): Promise<TransactionHash[]> {
+        return this.doPostGeneric(
+            "transaction/send-multiple",
+            txs.map(t => t.toSendable()),
+            (response) => {
+                let txHashes: TransactionHash[] = []
+                for (const key in response.txsHashes) {
+                    if (Object.prototype.hasOwnProperty.call(response.txsHashes, key)) {
+                        const hash = response.txsHashes[key];
+                        txHashes.push(new TransactionHash(hash));
+                    }
+                }
+                return txHashes;
+            }
+        );
+    }
+
+    /**
      * Simulates the processing of an already-signed {@link Transaction}.
      */
     async simulateTransaction(tx: Transaction): Promise<any> {
