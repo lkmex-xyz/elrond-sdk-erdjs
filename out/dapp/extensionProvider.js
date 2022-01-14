@@ -98,11 +98,13 @@ class ExtensionProvider {
     sendTransactions(transactions) {
         return __awaiter(this, void 0, void 0, function* () {
             this.openExtensionPopup();
-            const txResponses = yield this.startExtMsgChannel("sendTransactions", {
+            transactions = transactions.map((transaction) => transaction.toPlainObject());
+            let txResponse = yield this.startExtMsgChannel("sendTransactions", {
                 from: this.account.address,
-                transactions: transactions.map(t => t.toPlainObject()),
+                transactions,
             });
-            return txResponses.map((t) => transaction_1.Transaction.fromPlainObject(t));
+            txResponse = txResponse.map((transaction) => transaction_1.Transaction.fromPlainObject(transaction));
+            return txResponse;
         });
     }
     signTransaction(transaction) {

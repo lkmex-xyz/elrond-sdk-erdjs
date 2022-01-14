@@ -34,7 +34,7 @@ export declare class ExtensionProvider implements IDappProvider {
     isInitialized(): boolean;
     isConnected(): Promise<boolean>;
     sendTransaction(transaction: Transaction): Promise<Transaction>;
-    sendTransactions(transactions: Transaction[]): Promise<Transaction[]>;
+    sendTransactions(transactions: Array<Transaction>): Promise<Array<Transaction>>;
     signTransaction(transaction: Transaction): Promise<Transaction>;
     signTransactions(transactions: Array<Transaction>): Promise<Array<Transaction>>;
     signMessage(message: SignableMessage): Promise<SignableMessage>;
